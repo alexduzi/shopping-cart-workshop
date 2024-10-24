@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.alexduzi.shoppingcart.exceptions.ProductNotFoundException;
+import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
 import com.alexduzi.shoppingcart.model.Category;
 import com.alexduzi.shoppingcart.model.Product;
 import com.alexduzi.shoppingcart.repository.CategoryRepository;
@@ -63,19 +63,19 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Product getProductById(Long id) {
-		return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found!"));
+		return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
 	}
 
 	@Override
 	public void deleteProductById(Long id) {
-		productRepository.findById(id).ifPresentOrElse(productRepository::delete, () -> { throw new  ProductNotFoundException("Product not found!"); });
+		productRepository.findById(id).ifPresentOrElse(productRepository::delete, () -> { throw new  ResourceNotFoundException("Product not found!"); });
 	}
 
 	@Override
 	public Product updateProduct(ProductUpdateRequest request, Long productId) {
 		return productRepository.findById(productId)
 								.map(existingProduct -> updateExistingProduct(existingProduct, request))
-								.orElseThrow(() -> new ProductNotFoundException("Product not found!"));
+								.orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
 	}
 
 	@Override
