@@ -3,12 +3,17 @@ package com.alexduzi.shoppingcart.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.alexduzi.shoppingcart.dto.ImageDto;
+import com.alexduzi.shoppingcart.dto.ProductDto;
 import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
 import com.alexduzi.shoppingcart.model.Category;
+import com.alexduzi.shoppingcart.model.Image;
 import com.alexduzi.shoppingcart.model.Product;
 import com.alexduzi.shoppingcart.repository.CategoryRepository;
+import com.alexduzi.shoppingcart.repository.ImageRepository;
 import com.alexduzi.shoppingcart.repository.ProductRepository;
 import com.alexduzi.shoppingcart.request.AddProductRequest;
 import com.alexduzi.shoppingcart.request.ProductUpdateRequest;
@@ -22,6 +27,10 @@ public class ProductService implements IProductService {
 	private final ProductRepository productRepository;
 	
 	private final CategoryRepository categoryRepository;
+	
+	private final ImageRepository imageRepository;
+	
+	private final ModelMapper modelMapper;
 
 	@Override
 	public Product addproduct(AddProductRequest request) {
@@ -112,5 +121,19 @@ public class ProductService implements IProductService {
 	@Override
 	public Long countProductsByBrandAndName(String brand, String name) {
 		return productRepository.countByBrandAndName(brand, name);
+	}
+	
+	@Override
+	public List<ProductDto> convertToDto(List<Product> products) {
+		return products.stream().map(this::convertToDto).toList();
+	}
+	
+	@Override
+	public ProductDto convertToDto(Product product) {
+		ProductDto productDto = modelMapper.map(product, ProductDto.class);
+		List<Image> images = imageRepository.findByProductId(product.getId());
+		List<ImageDto> imagesDto = images.stream().map(img -> modelMapper.map(img, ImageDto.class)).toList();
+		productDto.setImages(imagesDto);
+		return productDto;
 	}
 }
