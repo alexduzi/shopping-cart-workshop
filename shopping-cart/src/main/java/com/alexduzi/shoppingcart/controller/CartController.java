@@ -43,7 +43,7 @@ public class CartController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
 		}
 	}
-	
+
 	@GetMapping("/cart/{id}/total-price")
 	public ResponseEntity<ApiResponse> getTotalPrice(@PathVariable Long cartId) {
 		try {
