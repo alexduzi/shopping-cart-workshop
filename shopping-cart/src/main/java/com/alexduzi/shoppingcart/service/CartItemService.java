@@ -1,7 +1,5 @@
 package com.alexduzi.shoppingcart.service;
 
-import java.math.BigDecimal;
-
 import org.springframework.stereotype.Service;
 
 import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
@@ -75,8 +73,9 @@ public class CartItemService implements ICartItemService {
 					item.setUnitPrice(item.getProduct().getPrice());
 					item.setTotalPrice();
 				});
-		BigDecimal totalAmount = cart.getTotalAmount();
-		cart.setTotalAmount(totalAmount);
+
+		cart.updateTotalAmount();
+
 		cartRepository.save(cart);
 	}
 

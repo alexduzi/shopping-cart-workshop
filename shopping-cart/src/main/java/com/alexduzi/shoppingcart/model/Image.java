@@ -19,7 +19,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"image", "downloadUrl", "product"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

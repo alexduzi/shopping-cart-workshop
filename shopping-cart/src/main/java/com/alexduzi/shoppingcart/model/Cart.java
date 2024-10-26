@@ -20,7 +20,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"items"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -49,7 +49,7 @@ public class Cart implements Serializable {
 		updateTotalAmount();
 	}
 
-	private void updateTotalAmount() {
+	public void updateTotalAmount() {
 		this.totalAmount = items.stream().map(item -> {
 			BigDecimal unitPrice = item.getUnitPrice();
 			if (unitPrice == null) {

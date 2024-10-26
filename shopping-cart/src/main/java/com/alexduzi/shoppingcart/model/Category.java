@@ -19,7 +19,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"products"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
