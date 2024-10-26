@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
 import com.alexduzi.shoppingcart.model.Cart;
+import com.alexduzi.shoppingcart.model.CartItem;
+import com.alexduzi.shoppingcart.repository.CartItemRepository;
 import com.alexduzi.shoppingcart.repository.CartRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class CartService implements ICartService {
 
 	private final CartRepository cartRepository;
+	
+	private final CartItemRepository cartItemRepository;
 
 	@Override
 	public Cart getCart(Long id) {
@@ -26,14 +30,15 @@ public class CartService implements ICartService {
 
 	@Override
 	public void clearCart(Long id) {
-		// TODO Auto-generated method stub
-
+		Cart cart = getCart(id);
+		cartItemRepository.deleteAllByCartId(id);
+		cartRepository.deleteById(id);
 	}
 
 	@Override
 	public BigDecimal getTotalPrice(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Cart cart = getCart(id);
+		return cart.getTotalAmount();
 	}
 
 }
