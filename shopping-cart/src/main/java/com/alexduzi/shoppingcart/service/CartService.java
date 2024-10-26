@@ -10,6 +10,7 @@ import com.alexduzi.shoppingcart.model.Cart;
 import com.alexduzi.shoppingcart.repository.CartItemRepository;
 import com.alexduzi.shoppingcart.repository.CartRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,11 +30,13 @@ public class CartService implements ICartService {
 		cart.setTotalAmount(totalAmount);
 		return cartRepository.save(cart);
 	}
-
+	
+	@Transactional
 	@Override
 	public void clearCart(Long id) {
 		Cart cart = getCart(id);
 		cartItemRepository.deleteAllByCartId(id);
+		cart.getItems().clear();
 		cartRepository.deleteById(id);
 	}
 

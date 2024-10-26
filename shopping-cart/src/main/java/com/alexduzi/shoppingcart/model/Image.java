@@ -3,6 +3,8 @@ package com.alexduzi.shoppingcart.model;
 import java.io.Serializable;
 import java.sql.Blob;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +21,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"image", "downloadUrl", "product"})
+@EqualsAndHashCode(exclude = { "image", "downloadUrl", "product" })
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -34,11 +36,13 @@ public class Image implements Serializable {
 	private String fileName;
 	private String fileType;
 
+	@JsonIgnore
 	@Lob
 	private Blob image;
 
 	private String downloadUrl;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
