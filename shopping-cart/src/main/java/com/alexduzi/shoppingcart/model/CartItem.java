@@ -21,7 +21,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"product", "cart"})
+@EqualsAndHashCode(exclude = { "product", "cart" })
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -40,7 +40,7 @@ public class CartItem implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
+
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cart_id")

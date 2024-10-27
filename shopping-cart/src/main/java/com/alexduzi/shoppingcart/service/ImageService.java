@@ -16,10 +16,10 @@ import com.alexduzi.shoppingcart.model.Image;
 import com.alexduzi.shoppingcart.model.Product;
 import com.alexduzi.shoppingcart.repository.ImageRepository;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ImageService implements IImageService {
 
 	private final ImageRepository imageRepository;

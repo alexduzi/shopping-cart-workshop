@@ -21,7 +21,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"category", "images"})
+@EqualsAndHashCode(exclude = { "category", "images" })
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

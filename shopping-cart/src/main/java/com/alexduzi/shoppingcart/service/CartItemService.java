@@ -9,10 +9,10 @@ import com.alexduzi.shoppingcart.model.Product;
 import com.alexduzi.shoppingcart.repository.CartItemRepository;
 import com.alexduzi.shoppingcart.repository.CartRepository;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartItemService implements ICartItemService {
 
 	private final CartItemRepository cartItemRepository;

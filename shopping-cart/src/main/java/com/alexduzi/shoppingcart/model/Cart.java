@@ -10,7 +10,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -20,7 +22,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"items"})
+@EqualsAndHashCode(exclude = { "items" })
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -36,6 +38,10 @@ public class Cart implements Serializable {
 
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<CartItem> items = new HashSet<>();
+
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	public void addItem(CartItem item) {
 		this.items.add(item);
