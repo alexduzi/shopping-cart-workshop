@@ -3,10 +3,14 @@ package com.alexduzi.shoppingcart.dto;
 import java.math.BigDecimal;
 import java.util.List;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
 @NoArgsConstructor
 public class ProductDto {
 	private Long id;

@@ -1,4 +1,4 @@
-package com.alexduzi.shoppingcart.dto;
+package com.alexduzi.shoppingcart.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,9 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto {
-	private String name;
+@AllArgsConstructor
+public class UserUpdateRequest {
+	private String firstName;
+	private String lastName;
 }

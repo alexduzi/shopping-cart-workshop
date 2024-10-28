@@ -5,8 +5,12 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.alexduzi.shoppingcart.dto.OrderDto;
+import com.alexduzi.shoppingcart.dto.OrderItemDto;
+import com.alexduzi.shoppingcart.dto.UserDto;
 import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
 import com.alexduzi.shoppingcart.model.Cart;
 import com.alexduzi.shoppingcart.model.Order;
@@ -29,6 +33,8 @@ public class OrderService implements IOrderService {
 
 	private final ICartService cartService;
 
+	private final ModelMapper modelMapper;
+
 	@Transactional
 	@Override
 	public Order placeOrder(Long userId) {
@@ -37,11 +43,11 @@ public class OrderService implements IOrderService {
 		List<OrderItem> orderItemList = createOrderItems(order, cart);
 		order.setOrderItems(new HashSet<>(orderItemList));
 		order.setTotalAmount(calculateTotalAmount(orderItemList));
-		
+
 		Order savedOrder = orderRepository.save(order);
-		
+
 		cartService.clearCart(cart.getId());
-		
+
 		return savedOrder;
 	}
 
@@ -49,10 +55,19 @@ public class OrderService implements IOrderService {
 	public Order getOrder(Long orderId) {
 		return orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 	}
-	
+
 	@Override
 	public List<Order> getUsersOrders(Long userId) {
 		return orderRepository.findByUserId(userId);
+	}
+
+	@Override
+	public OrderDto convertToDto(Order order) {
+		OrderDto orderDto = modelMapper.map(order, OrderDto.class);
+		orderDto.setUser(modelMapper.map(order.getUser(), UserDto.class));
+		orderDto.setOrderItems(new HashSet<>(
+				order.getOrderItems().stream().map(o -> modelMapper.map(o, OrderItemDto.class)).toList()));
+		return orderDto;
 	}
 
 	private Order createOrder(Cart cart) {
@@ -76,5 +91,4 @@ public class OrderService implements IOrderService {
 		return orderItems.stream().map(item -> item.getPrice().multiply(new BigDecimal(item.getQuantity())))
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
-
 }

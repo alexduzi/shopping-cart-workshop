@@ -9,6 +9,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto {
-	private String name;
+public class UserDto {
+	private String firstName;
+	private String lastName;
+	private String email;
 }

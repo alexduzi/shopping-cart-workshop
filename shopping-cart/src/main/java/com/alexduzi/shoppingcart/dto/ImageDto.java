@@ -1,8 +1,14 @@
 package com.alexduzi.shoppingcart.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ImageDto {
 	private Long id;
 	private String fileName;
