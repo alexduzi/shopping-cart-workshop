@@ -1,7 +1,8 @@
 package com.alexduzi.shoppingcart.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +13,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class CartDto {
 	private Long id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private List<OrderDto> orders = new ArrayList<>();
-	private CartDto cart;
+	private BigDecimal totalAmount = BigDecimal.ZERO;
+	private Set<CartItemDto> items = new HashSet<>();
 }
