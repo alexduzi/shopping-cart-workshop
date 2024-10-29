@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.alexduzi.shoppingcart.dto.CartDto;
 import com.alexduzi.shoppingcart.dto.UserDto;
 import com.alexduzi.shoppingcart.exceptions.AlreadyExistsException;
 import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
@@ -21,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService implements IUserService {
 
 	private final UserRepository userRepository;
-	
+
 	private final ModelMapper modelMapper;
 
 	@Override

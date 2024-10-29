@@ -1,12 +1,13 @@
 package com.alexduzi.shoppingcart.service;
 
 import java.math.BigDecimal;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
 import com.alexduzi.shoppingcart.model.Cart;
+import com.alexduzi.shoppingcart.model.User;
 import com.alexduzi.shoppingcart.repository.CartItemRepository;
 import com.alexduzi.shoppingcart.repository.CartRepository;
 
@@ -21,7 +22,7 @@ public class CartService implements ICartService {
 
 	private final CartItemRepository cartItemRepository;
 
-	private final AtomicLong cartIdGenerator = new AtomicLong(0);
+	// private final AtomicLong cartIdGenerator = new AtomicLong(0);
 
 	@Override
 	public Cart getCart(Long id) {
@@ -47,11 +48,12 @@ public class CartService implements ICartService {
 	}
 
 	@Override
-	public Long initializeNewCart() {
-		Cart newCart = new Cart();
-		Long newCartId = cartIdGenerator.incrementAndGet();
-		newCart.setId(newCartId);
-		return cartRepository.save(newCart).getId();
+	public Cart initializeNewCart(User user) {
+		return Optional.ofNullable(getCartByUserId(user.getId())).orElseGet(() -> {
+			Cart cart = new Cart();
+			cart.setUser(user);
+			return cartRepository.save(cart);
+		});
 	}
 
 	@Override

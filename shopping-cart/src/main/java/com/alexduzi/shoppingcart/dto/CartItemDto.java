@@ -2,6 +2,8 @@ package com.alexduzi.shoppingcart.dto;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +19,6 @@ public class CartItemDto {
 	private BigDecimal unitPrice;
 	private BigDecimal totalPrice;
 	private ProductDto product;
+	@JsonIgnore
 	private CartDto cart;
 }

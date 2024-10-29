@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.alexduzi.shoppingcart.dto.OrderDto;
 import com.alexduzi.shoppingcart.dto.OrderItemDto;
-import com.alexduzi.shoppingcart.dto.UserDto;
 import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
 import com.alexduzi.shoppingcart.model.Cart;
 import com.alexduzi.shoppingcart.model.Order;
@@ -64,7 +63,8 @@ public class OrderService implements IOrderService {
 	@Override
 	public OrderDto convertToDto(Order order) {
 		OrderDto orderDto = modelMapper.map(order, OrderDto.class);
-		orderDto.setUser(modelMapper.map(order.getUser(), UserDto.class));
+		orderDto.setUserId(order.getUser().getId());
+		orderDto.setOrderStatus(order.getOrderStatus().toString());
 		orderDto.setOrderItems(new HashSet<>(
 				order.getOrderItems().stream().map(o -> modelMapper.map(o, OrderItemDto.class)).toList()));
 		return orderDto;
