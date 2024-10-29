@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.alexduzi.shoppingcart.dto.ImageDto;
 import com.alexduzi.shoppingcart.dto.ProductDto;
+import com.alexduzi.shoppingcart.exceptions.AlreadyExistsException;
 import com.alexduzi.shoppingcart.exceptions.ResourceNotFoundException;
 import com.alexduzi.shoppingcart.model.Category;
 import com.alexduzi.shoppingcart.model.Image;
@@ -35,6 +36,10 @@ public class ProductService implements IProductService {
 	@Override
 	public Product addproduct(AddProductRequest request) {
 		
+		if (productExists(request.getName(), request.getBrand())) {
+			throw new AlreadyExistsException(request.getBrand() + " " + request.getName() + " already exists");
+		}
+		
 		Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
 									.orElseGet(() -> {
 										Category newCategory = new Category(request.getCategory().getName());
@@ -53,6 +58,10 @@ public class ProductService implements IProductService {
 						   request.getInventory(),
 						   request.getDescription(),
 						   category);
+	}
+	
+	private boolean productExists(String name, String brand) {
+		return productRepository.existsByNameAndBrand(name, brand);
 	}
 	
 	private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request) {
