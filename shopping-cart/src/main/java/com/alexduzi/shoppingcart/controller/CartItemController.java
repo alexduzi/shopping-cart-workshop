@@ -18,6 +18,7 @@ import com.alexduzi.shoppingcart.service.ICartItemService;
 import com.alexduzi.shoppingcart.service.ICartService;
 import com.alexduzi.shoppingcart.service.IUserService;
 
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class CartItemController {
 	@PostMapping("/item/add")
 	public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId, @RequestParam Integer quantity) {
 		try {
-			User user = userService.getUserById(2L);
+			User user = userService.getAuthenticatedUser();
 
 			Cart cart = cartService.initializeNewCart(user);
 
@@ -42,6 +43,8 @@ public class CartItemController {
 			return ResponseEntity.ok(new ApiResponse("Add Item Success", null));
 		} catch (ResourceNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+		} catch (JwtException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse(e.getMessage(), null));
 		}
 	}
 

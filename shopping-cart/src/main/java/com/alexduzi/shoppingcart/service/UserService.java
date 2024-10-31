@@ -3,6 +3,9 @@ package com.alexduzi.shoppingcart.service;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.alexduzi.shoppingcart.dto.UserDto;
@@ -23,6 +26,8 @@ public class UserService implements IUserService {
 
 	private final ModelMapper modelMapper;
 
+	private final PasswordEncoder passwordEncoder;
+
 	@Override
 	public User getUserById(Long userId) {
 		return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -35,7 +40,7 @@ public class UserService implements IUserService {
 			user.setFirstName(rUser.getFirstName());
 			user.setEmail(rUser.getEmail());
 			user.setLastName(rUser.getLastName());
-			user.setPassword(rUser.getPassword());
+			user.setPassword(passwordEncoder.encode(rUser.getPassword()));
 			return userRepository.save(user);
 		}).orElseThrow(() -> new AlreadyExistsException(reqUser.getEmail() + " already exists"));
 	}
@@ -59,5 +64,12 @@ public class UserService implements IUserService {
 	@Override
 	public UserDto convertToDto(User user) {
 		return modelMapper.map(user, UserDto.class);
+	}
+
+	@Override
+	public User getAuthenticatedUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		return userRepository.findByEmail(email);
 	}
 }
