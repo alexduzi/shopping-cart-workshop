@@ -31,7 +31,7 @@ public class SecurityConfig {
 	private final JwtAuthEntryPoint authEntryPoint;
 	
 	private static final List<String> SECURED_URLS = 
-			List.of("/api/v1/carts/**", "/api/v1/cartItems/**");
+			List.of("/api/v1/carts/**", "/api/v1/cartItems/**", "/api/v1/products/**");
 	
 	@Bean
 	public ModelMapper modelMapper() {
@@ -45,7 +45,7 @@ public class SecurityConfig {
 
 	@Bean
 	public AuthTokenFilter authTokenFilter() {
-		return new AuthTokenFilter(new JwtUtils(), userDetailsService);
+		return new AuthTokenFilter();
 	}
 
 	@Bean

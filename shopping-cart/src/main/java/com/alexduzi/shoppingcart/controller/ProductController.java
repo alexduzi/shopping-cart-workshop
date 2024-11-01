@@ -50,7 +50,7 @@ public class ProductController {
 		}
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/add")
 	public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest productRequest) {
 		try {
@@ -62,7 +62,7 @@ public class ProductController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping("/product/{productId}/update")
 	public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long productId,
 			@RequestBody ProductUpdateRequest prodUpdtRequest) {
@@ -75,7 +75,7 @@ public class ProductController {
 		}
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/product/{productId}")
 	public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId) {
 		try {
